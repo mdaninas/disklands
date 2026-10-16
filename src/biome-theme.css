@@ -1,0 +1,448 @@
+/* Original voxel landscape styling. Area still represents bytes in every view. */
+body.biome-theme {
+  --background: #eeeee5;
+  --surface: #fafaf3;
+  --ink: #273c33;
+  --muted: #778374;
+  --line: #d6ddca;
+  --coral: #527443;
+  --coral-dark: #3f5e34;
+  --sidebar-width: 208px;
+  --pixel-font: 'Cascadia Mono', 'Consolas', monospace;
+  background: var(--background);
+  color: var(--ink);
+}
+.biome-theme :focus-visible { outline-color: #edba57; outline-offset: 3px; }
+.biome-theme button:hover:not(:disabled) { transition: background .16s ease, box-shadow .16s ease; }
+.biome-theme .titlebar { background: #1e332b; color: #bfceba; border-bottom: 1px solid #10271c; font-size: 10px; letter-spacing: .35px; }
+.biome-theme .window-controls button:hover { background: #3a4f40; }
+.biome-theme .window-controls button:last-child:hover { background: #ad5c41; }
+.biome-theme .sidebar { padding: 27px 14px 0; background: #2b4136; border-right: 1px solid #192f24; color: #d7dfcb; }
+.biome-theme .sidebar::-webkit-scrollbar-thumb { background: #61755a; }
+.biome-theme .brand { margin-bottom: 30px; color: #f2f0d8; font-size: 22px; font-weight: 750; letter-spacing: -1px; padding: 0 4px; gap: 8px; white-space: nowrap; }
+.biome-theme .brand-mark { transform: none; gap: 2px; width: 26px; height: 26px; }
+.biome-theme .brand-mark i { background: #aaca74; border-radius: 0; box-shadow: inset 0 2px #d4e5a5, inset -2px -2px #6f924b; }
+.biome-theme .brand-mark i:nth-child(2) { opacity: .75; }
+.biome-theme .brand-mark i:nth-child(3) { opacity: .85; }
+.biome-theme .brand-mark i:nth-child(4) { border-radius: 0; background: #d3b779; box-shadow: inset 0 2px #e6cf9b, inset -2px -2px #8e794d; }
+.biome-theme .nav-label { margin-left: 13px; color: #97ac8d; font-family: var(--pixel-font); font-size: 9px; letter-spacing: 1.1px; }
+.biome-theme nav { gap: 5px; }
+.biome-theme .nav-item { border-radius: 2px; border: 1px solid transparent; min-height: 44px; padding: 11px 13px; color: #beccb5; font-size: 12px; gap: 10px; }
+.biome-theme .nav-item .icon { width: 17px; height: 17px; }
+.biome-theme .nav-item:hover { background: #354d3d; color: #eef0dd; }
+.biome-theme .nav-item.active { background: #425b40; color: #f0f3df; border-color: #627c51; box-shadow: inset 0 2px #69855533, inset 0 -2px #15291c40; }
+.biome-theme .drive-heading { margin-top: 26px; padding-right: 12px; }
+.biome-theme .tiny-count { color: #bdcaae; background: #334a39; border-color: #5b6f50; border-radius: 1px; font-family: var(--pixel-font); }
+.biome-theme .drive-list { gap: 7px; }
+.biome-theme .drive-item { border-radius: 2px; padding: 13px 12px 11px; }
+.biome-theme .drive-item:hover { background: #354c3b; }
+.biome-theme .drive-item.selected { background: #354b39; border-color: #5e7551; box-shadow: inset 0 2px #89a17218, inset 0 -2px #12281a33; }
+.biome-theme .drive-top { gap: 10px; }
+.biome-theme .drive-top > .icon { color: #b1c492; width: 18px; height: 18px; }
+.biome-theme .drive-top b { color: #e6e9d7; font-size: 11px; font-weight: 600; }
+.biome-theme .drive-top small { color: #aabb98; font-size: 10px; }
+.biome-theme .drive-bar { height: 6px; background: #1e3427; border-radius: 0; margin-top: 12px; border: 1px solid #122b1c; }
+.biome-theme .drive-bar > span { border-radius: 0; box-shadow: inset 0 1px #d9e8ac55; }
+.biome-theme .drive-capacity { display: flex; justify-content: space-between; gap: 6px; font-size: 8px; color: #a9bd96; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.biome-theme .sidebar-note { color: #91a485; font-size: 9px; line-height: 1.7; margin-left: 12px; }
+.biome-theme .sidebar-bottom { padding: 18px 12px; }
+.biome-theme .app-version { display: block; border-top: 1px solid #465c44; padding-top: 14px; color: #a7b8a0; font-size: 10px; }
+.biome-theme .empty-folder { color: #718462; margin: 0 auto 16px; }
+.biome-theme .empty-folder .icon { width: 36px; height: 36px; }
+.biome-theme .version { color: #8da37f; }
+.biome-theme .toolbar { height: 47px; padding: 0 28px; background: #f5f5ec; border-bottom-color: #d6deca; }
+.biome-theme .toolbar-breadcrumb { font-size: 10px; color: #8a9780; }
+.biome-theme .toolbar-breadcrumb b { color: #40513b; font-weight: 600; }
+.biome-theme .toolbar-breadcrumb .icon { color: #a3ad96; }
+.biome-theme .toolbar-right { gap: 15px; }
+.biome-theme #language { min-width: 148px; min-height: 29px; padding: 4px 9px; font-size: 10px; font-weight: 600; }
+.biome-theme .icon-button { border-radius: 2px; color: #76866b; }
+.biome-theme .icon-button:hover { background: #e7ecd9; color: #40563a; }
+.biome-theme .content { padding: 23px 28px 20px; background: var(--background); }
+.biome-theme .content::-webkit-scrollbar-thumb,
+.biome-theme .table-scroll::-webkit-scrollbar-thumb { background: #c1ceb0; }
+.biome-theme .hero { margin-bottom: 16px; align-items: center; gap: 16px; }
+.biome-theme h1 { font-size: 25px; font-weight: 720; letter-spacing: -.85px; line-height: 1.22; }
+.biome-theme .hero p { font-size: 11px; color: #77856a; margin-top: 6px; }
+.biome-theme .hero-actions { padding-top: 3px; gap: 8px; }
+.biome-theme .button { min-height: 35px; padding: 8px 13px; border-radius: 2px; font-size: 10px; font-weight: 650; gap: 7px; }
+.biome-theme .button.primary { background: #527443; border-color: #385c2e; box-shadow: inset 0 2px #87a86980, inset 0 -2px #284e2566, 0 2px 0 #324d2b18; color: #f9faed; }
+.biome-theme .button.primary:hover:not(:disabled) { background: #446b38; }
+.biome-theme .button.secondary { background: #f7f7ed; border-color: #c7d0b7; color: #53694a; box-shadow: inset 0 2px #fff, inset 0 -2px #dfe5d2; }
+.biome-theme .button.secondary:hover:not(:disabled) { background: #ecefdd; border-color: #acbe99; }
+.biome-theme .button.small { min-height: 30px; padding: 6px 10px; font-size: 10px; }
+.biome-theme .button.cancel-button { background: #f6e9d8; color: #9b613f; border-color: #c5a387; box-shadow: inset 0 2px #fff8e9, inset 0 -2px #d8c3a6; }
+.biome-theme .button.text-button { color: #718360; box-shadow: none; }
+.biome-theme .directory-bar { min-height: 55px; padding: 10px 13px; gap: 10px; margin-bottom: 14px; border-radius: 2px; border-color: #cbd4bb; background: #e5ead8; box-shadow: inset 0 2px #f7f8eb, inset 0 -2px #dbe2cb; }
+.biome-theme .directory-icon { width: 31px; height: 31px; border-radius: 1px; background: #d0dabb; color: #536e42; box-shadow: inset 0 2px #e5eccf, inset 0 -2px #b6c5a0; }
+.biome-theme .micro-label { font-family: var(--pixel-font); font-size: 8px; letter-spacing: 1px; color: #7a8c64; margin-bottom: 4px; }
+.biome-theme .directory-path { font-size: 11px; color: #435b37; gap: 8px; font-weight: 550; }
+.biome-theme .directory-path-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.biome-theme .directory-status { color: #7d8c6e; font-size: 9px; align-items: center; }
+.biome-theme .directory-state { display: inline-flex; align-items: center; gap: 4px; padding: 3px 6px; background: #d6e1c4; color: #587444; border: 1px solid #c4d2ae; border-radius: 1px; }
+.biome-theme .directory-state.scanning { color: #826e37; background: #ece2b9; border-color: #d5c48f; }
+.biome-theme .directory-bar .button.secondary { color: #5b704b; background: #f1f4e5; border-color: #bdcbaa; }
+.biome-theme .stats-grid { gap: 10px; margin-bottom: 16px; }
+.biome-theme .stat-card { padding: 11px 14px 10px; border-radius: 2px; background: #f8f9f0; border-color: #d1dac2; box-shadow: inset 0 2px #fffef5, 0 2px 0 #dfe4d3; position: relative; }
+.biome-theme .stat-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: #b0c28c; }
+.biome-theme .stat-primary::before { background: #749654; }
+.biome-theme .stat-top { color: #7b896c; font-size: 10px; }
+.biome-theme .stat-icon { width: 23px; height: 23px; border-radius: 1px; }
+.biome-theme .stat-icon .icon { width: 13px; height: 13px; }
+.biome-theme .stat-icon.coral { background: #e3ecd1; color: #718e4e; }
+.biome-theme .stat-icon.sand { background: #ece6cf; color: #9a8452; }
+.biome-theme .stat-icon.sage { background: #e0e9d2; color: #7d945f; }
+.biome-theme .stat-icon.lavender { background: #e1e9e5; color: #7a9385; }
+.biome-theme .stat-value { font-size: 23px; font-weight: 650; color: #344d2d; margin: 6px 0 7px; letter-spacing: -.8px; }
+.biome-theme .stat-value > span { font-size: 11px; font-weight: 500; color: #8a9879; margin-left: 5px; }
+.biome-theme .stat-note { color: #8a977b; font-size: 8px; }
+.biome-theme .stat-disk-meter { height: 4px; background: #e0e6d3; overflow: hidden; border-radius: 0; }
+.biome-theme .stat-disk-meter > span { display: block; height: 100%; background: #92aa6d; }
+.biome-theme .stat-disk-caption { display: flex; justify-content: space-between; gap: 5px; font-size: 8px; color: #869575; margin-top: 4px; }
+.biome-theme .card { background: #fafbf4; border-radius: 3px; border-color: #cad5bb; box-shadow: 0 3px 0 #dce3d0; }
+.biome-theme .card-heading { padding: 17px 18px 13px; gap: 10px; }
+.biome-theme .card-heading h2 { font-size: 13px; font-weight: 650; color: #3e5636; }
+.biome-theme .card-heading p { font-size: 10px; line-height: 1.5; color: #899579; margin-top: 5px; }
+.biome-theme .overview-charts { grid-template-columns: minmax(0, 1fr) 218px; gap: 14px; margin-bottom: 16px; }
+.biome-theme .treemap-card { min-width: 0; }
+.biome-theme h2.world-heading { font-family: var(--pixel-font); font-size: 13px; letter-spacing: -.3px; font-weight: 750; }
+.biome-theme .world-heading h2 .icon { width: 16px; height: 16px; color: #7e9a56; margin-right: 6px; }
+.biome-theme .world-mode-controls { border-radius: 2px; background: #e7ecda; border-color: #cbd7bb; gap: 2px; padding: 3px; }
+.biome-theme .world-mode-controls button { padding: 6px 8px; border-radius: 1px; font-size: 9px; font-weight: 600; color: #81926e; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.biome-theme .world-mode-controls .icon { width: 12px; height: 12px; }
+.biome-theme .world-mode-controls button:hover { color: #405736; background: #dce6cb; }
+.biome-theme .world-mode-controls button.active { color: #f3f8e8; background: #5d7946; box-shadow: inset 0 2px #86a76488, inset 0 -2px #3b5b3266; }
+.biome-theme .map-toolbar { padding: 0 18px 11px; }
+.biome-theme .map-crumbs { gap: 6px; min-width: 0; overflow: hidden; }
+.biome-theme .map-crumbs button:not(.icon-button) { font-size: 10px; color: #82916d; max-width: 140px; flex-shrink: 1; min-width: 0; }
+.biome-theme .map-crumbs button:last-child { color: #506a3b; font-weight: 600; }
+.biome-theme .map-crumbs > .icon { color: #a5b095; }
+.biome-theme select { border-color: #cdd8bf; border-radius: 2px; background: #f6f8ee; color: #677d51; min-height: 31px; font-size: 10px; box-shadow: inset 0 2px #fff; }
+.biome-theme .map-toolbar select { border: 1px solid #d2dcc4; background: #edf1e3; font-size: 9px; min-height: 25px; max-width: 125px; padding: 4px 10px; box-shadow: none; }
+.biome-theme .treemap-world {
+  height: clamp(390px, 43vh, 440px);
+  min-height: 390px;
+  position: relative;
+  margin: 0 15px 13px;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 5px solid #cbd7b4;
+  background-color: #7b9670;
+  background-image: linear-gradient(#d8e6bb12 1px, transparent 1px), linear-gradient(90deg, #d8e6bb12 1px, transparent 1px), radial-gradient(ellipse at 35% 35%, #a6bf87, #6b8865);
+  background-size: 24px 24px, 24px 24px, auto;
+  box-shadow: inset 0 0 0 1px #556f47, inset 0 -8px #4b67492e, 0 2px 0 #b5c79b;
+  isolation: isolate;
+  perspective: none;
+  container-type: size;
+}
+.biome-theme .world-plane { position: absolute; inset: 9px; transform-style: preserve-3d; }
+.biome-theme .map-tile.biome-tile {
+  --biome-surface: #b2c884;
+  --biome-deep: #789458;
+  --biome-detail: #93b570;
+  --biome-ink: #314c26;
+  border: 2px solid #edf1d080;
+  border-radius: 0;
+  background-color: var(--biome-surface);
+  background-image: linear-gradient(90deg, #ffffff08 50%, #293f2110 50%), linear-gradient(#fbffe90f 50%, transparent 50%);
+  background-size: 28px 28px, 42px 42px;
+  padding: 10px 11px;
+  color: var(--biome-ink);
+  box-shadow: inset 0 3px #ffffff32, inset 0 -5px var(--biome-deep), inset -3px 0 #29432b12;
+  transition: filter .14s ease, border-color .14s ease, box-shadow .14s ease;
+  transform-style: preserve-3d;
+}
+.biome-theme .map-tile.biome-tile:hover { filter: brightness(1.06); border-color: #fff3a0; box-shadow: inset 0 0 0 2px #fff4c47a, inset 0 -5px var(--biome-deep); }
+.biome-theme .map-tile.biome-tile:focus-visible { outline: 2px solid #fff3a0; outline-offset: -4px; z-index: 3; }
+.biome-theme .map-tile.biome-tile::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .52; background: linear-gradient(135deg, #f9ffe32e, transparent 65%); }
+.biome-theme .biome-tile .tile-top { top: 9px; left: 10px; right: 10px; color: var(--biome-ink); z-index: 4; opacity: .8; }
+.biome-theme .biome-tile .tile-top .icon { width: 14px; height: 14px; }
+.biome-theme .biome-tile .tile-top > span { font-family: var(--pixel-font); font-size: 9px; font-weight: 600; }
+.biome-theme .biome-scene { position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: .9; }
+.biome-theme .biome-scene > span { position: absolute; display: block; image-rendering: pixelated; left: var(--x); top: var(--y); transform: translate(-50%, -50%) scale(var(--scale, 1)); transform-origin: center; }
+.biome-theme .voxel-tree { width: 25px; height: 24px; left: 56%; top: 18%; background: #4a783d; box-shadow: inset 0 4px #84a45b, inset -5px -4px #345c2d, 7px 9px 0 #314b2e25; }
+.biome-theme .voxel-tree::before { content: ''; position: absolute; left: 4px; right: 4px; top: -8px; height: 14px; background: #638e44; box-shadow: inset 0 3px #93b368, inset -3px -3px #3d702e; }
+.biome-theme .voxel-tree::after { content: ''; position: absolute; top: 24px; left: 10px; width: 7px; height: 10px; background: #88704b; box-shadow: inset -2px 0 #6e5634; }
+.biome-theme .voxel-tree.tree-b { left: 20%; top: 43%; transform: scale(.75); }
+.biome-theme .voxel-rock { width: 18px; height: 12px; background: #9aa294; top: 65%; left: 76%; box-shadow: inset 0 3px #c9cbbb, inset -3px -3px #787d73, 5px 5px #38442f24; }
+.biome-theme .voxel-water { width: 28%; max-width: 90px; height: 18px; background: #89b9ae; top: 56%; left: 39%; box-shadow: -9px 6px 0 -2px #83b7ae, 8px -5px 0 -2px #94c6b8, inset 0 3px #aed7c2, 0 4px #678f78; }
+.biome-theme .voxel-crop { width: 25px; height: 15px; background: repeating-linear-gradient(90deg, #819448 0 4px, #bac77c 4px 7px); top: 16%; left: 13%; box-shadow: 0 3px #7f844a; }
+.biome-theme .biome-desert .voxel-tree { background: #859b57; width: 12px; height: 30px; box-shadow: inset -3px 0 #697b42, 5px 5px #91724822; }
+.biome-theme .biome-desert .voxel-tree::before { left: -7px; right: -7px; top: 12px; height: 10px; background: #859b57; box-shadow: inset -3px -2px #697b42; }
+.biome-theme .biome-desert .voxel-tree::after { display: none; }
+.biome-theme .biome-desert .voxel-water { display: none; }
+.biome-theme .biome-desert .voxel-rock { background: #b59b6b; box-shadow: inset 0 3px #d3ba8b, inset -3px -3px #947e54, 5px 5px #8b704225; }
+.biome-theme .biome-desert .voxel-crop { background: #c0a97c; width: 18px; height: 5px; box-shadow: 0 3px #aa9167; }
+.biome-theme .biome-stone .voxel-tree { background: #829784; box-shadow: inset 0 4px #aab49c, inset -5px -4px #627f6a, 7px 9px #33433d22; }
+.biome-theme .biome-stone .voxel-tree::before { background: #8aa58c; box-shadow: inset 0 3px #b5c4a7, inset -3px -3px #6b8b70; }
+.biome-theme .biome-stone .voxel-water { background: #88aeb1; box-shadow: -9px 6px 0 -2px #81a6ac, 8px -5px 0 -2px #99bdc1, inset 0 3px #b1caca, 0 4px #698c8e; }
+.biome-theme .biome-stone .voxel-crop { background: #a9b1a4; box-shadow: inset -4px -4px #849a8d, 0 3px #77877b; }
+.biome-theme .biome-snow .voxel-tree { background: #739487; box-shadow: inset 0 5px #edf1dc, inset -5px -4px #527a6b, 7px 9px #42595b22; }
+.biome-theme .biome-snow .voxel-tree::before { background: #a8bbae; box-shadow: inset 0 5px #f5f7e8, inset -3px -3px #729580; }
+.biome-theme .biome-snow .voxel-crop { background: #e2e7d6; box-shadow: inset -3px -3px #b0c3b8, 0 3px #9fb8b1; }
+.biome-theme .biome-ocean .voxel-tree { display: none; }
+.biome-theme .biome-ocean .voxel-water { width: 42%; max-width: 110px; background: #87b8b8; box-shadow: inset 0 3px #b6d7cb, 12px 8px #67a5a1, -15px -7px #7bb0b2; }
+.biome-theme .biome-ocean .voxel-crop { background: #e8d49d; box-shadow: inset 0 3px #f2e2b7, inset -4px -4px #c1ae7d, 7px 4px #739c9633; }
+.biome-theme .biome-ocean .voxel-rock { background: #bed0b2; box-shadow: inset 0 3px #e1e6c3, inset -3px -3px #8ba587, 5px 5px #4b7f7a33; }
+.biome-theme .voxel-pine { width: 22px; height: 14px; background: #426840; box-shadow: inset 0 3px #75935b, inset -4px -3px #2e5131, 7px 8px #2e452e24; }
+.biome-theme .voxel-pine::before { content: ''; position: absolute; width: 15px; height: 9px; left: 4px; top: -7px; background: #587c45; box-shadow: inset 0 2px #819c61, inset -3px -2px #365b33; }
+.biome-theme .voxel-pine::after { content: ''; position: absolute; width: 6px; height: 7px; left: 9px; top: 14px; background: #88714e; box-shadow: inset -2px 0 #5e5137; }
+.biome-theme .voxel-house { width: 25px; height: 17px; background: #d4bc82; box-shadow: inset 0 3px #ead5a1, inset -5px -3px #a59060, 7px 8px #32432c28; }
+.biome-theme .voxel-house::before { content: ''; position: absolute; left: -2px; right: -2px; top: -7px; height: 9px; background: #8a6d4c; box-shadow: inset 0 3px #b99365, inset -4px -2px #705439; }
+.biome-theme .voxel-house::after { content: ''; position: absolute; left: 9px; bottom: 0; width: 6px; height: 9px; background: #7e7356; box-shadow: 8px -3px 0 -1px #9dafa0; }
+.biome-theme .voxel-flower { width: 5px; height: 6px; background: #678a45; box-shadow: 7px 3px #739247, 13px -1px #799e4e; }
+.biome-theme .voxel-flower::before { content: ''; position: absolute; left: -2px; top: -5px; width: 8px; height: 5px; background: #e8c766; box-shadow: 8px 3px #e5dc9a, 14px -2px #dba275; }
+.biome-theme .voxel-cactus { width: 10px; height: 25px; background: #7e9551; box-shadow: inset 0 2px #afbb70, inset -3px 0 #596f39, 5px 5px #8b704325; }
+.biome-theme .voxel-cactus::before { content: ''; position: absolute; width: 5px; height: 12px; left: -6px; top: 7px; background: #8b9e56; box-shadow: inset -2px 0 #637541; }
+.biome-theme .voxel-cactus::after { content: ''; position: absolute; width: 5px; height: 13px; right: -5px; top: 3px; background: #859c50; box-shadow: inset -2px 0 #607638; }
+.biome-theme .voxel-ice { width: 17px; height: 14px; background: #b3d2cf; box-shadow: inset 0 4px #e8f0dd, inset -4px -3px #8eb4b5, 5px 5px #6f919424; }
+.biome-theme .voxel-ice::before { content: ''; position: absolute; width: 8px; height: 5px; top: -4px; left: 3px; background: #d2e5d7; box-shadow: inset -2px -1px #accdca; }
+.biome-theme .voxel-reed { width: 3px; height: 14px; background: #bdc489; box-shadow: 6px -6px #a6b56e, 12px -2px #b3be7b, 18px -8px #9ead68, 3px 4px #596d4128; }
+.biome-theme .voxel-reed::before { content: ''; position: absolute; width: 5px; height: 4px; top: -2px; left: -1px; background: #e0d2a0; box-shadow: 6px -6px #d3c68e, 12px -2px #e0d09c, 18px -8px #c9bf87; }
+.biome-theme .voxel-ore { width: 19px; height: 15px; background: #758a79; box-shadow: inset 0 3px #a6b5a0, inset -4px -3px #596d5e, 5px 5px #3e504024; }
+.biome-theme .voxel-ore::before { content: ''; position: absolute; left: 3px; top: 5px; width: 5px; height: 4px; background: #d6b565; box-shadow: 8px 3px #c3a25a, 5px -5px #e1c881; }
+.biome-theme .voxel-sand { width: 21px; height: 7px; background: var(--biome-detail); box-shadow: 6px 6px 0 -1px #9f824623, inset 0 2px #fff2c848, inset -3px -2px #8b683b20; }
+.biome-theme .voxel-sand::before { content: ''; position: absolute; width: 11px; height: 5px; left: 3px; top: -4px; background: var(--biome-detail); box-shadow: inset 0 2px #fff7d53b; }
+.biome-theme .biome-snow .voxel-pine { background: #648675; box-shadow: inset 0 5px #e4edda, inset -4px -3px #486858, 7px 8px #546e6726; }
+.biome-theme .biome-snow .voxel-pine::before { background: #a9c4b0; box-shadow: inset 0 4px #f1f5e7, inset -3px -2px #6b9480; }
+.biome-theme .biome-swamp .voxel-tree { background: #566d3d; box-shadow: inset 0 4px #839458, inset -5px -4px #344f30, 7px 9px #27382a29; }
+.biome-theme .biome-swamp .voxel-tree::before { background: #718449; box-shadow: inset 0 3px #9aaa62, inset -3px -3px #465f35; }
+.biome-theme .biome-water .voxel-water { width: 44px; height: 11px; background: #78b4b9; box-shadow: inset 0 3px #a5d1c9, 9px 5px #6ba9b0, -8px -3px #64a4af; }
+.biome-theme .biome-water .voxel-rock { background: #b3cbb5; box-shadow: inset 0 3px #d6dfc4, inset -3px -3px #82a78f, 5px 5px #34585c24; }
+.biome-theme .biome-badlands .voxel-rock { background: #b38153; box-shadow: inset 0 3px #d6a471, inset -3px -3px #8f613f, 5px 5px #75422a2a; }
+.biome-theme .biome-badlands .voxel-ore { background: #8d6e55; box-shadow: inset 0 3px #b69970, inset -4px -3px #71513d, 5px 5px #753d292a; }
+.biome-theme .biome-label { position: relative; z-index: 5; display: block; max-width: 100%; padding: 6px 8px 5px; background: #f7f8e7e8; border: 1px solid #ffffff60; box-shadow: 0 2px 0 #37452c20; color: #374c2c; border-radius: 0; }
+.biome-theme .biome-label .tile-label { font-size: 12px; font-weight: 650; line-height: 1.45; max-width: 100%; }
+.biome-theme .biome-label .tile-size { font-size: 10px; font-weight: 550; color: #768266; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.biome-theme .biome-badge { position: static; display: flex; align-items: center; gap: 5px; font-family: var(--pixel-font); font-size: 7px; font-weight: 600; letter-spacing: .8px; opacity: .78; line-height: 1.5; text-transform: uppercase; pointer-events: none; min-width: 0; }
+.biome-theme .biome-badge > .icon { width: 13px; height: 13px; }
+.biome-theme .biome-badge > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.biome-theme .biome-tile .tile-top { left: 10px; }
+.biome-theme .biome-tile .tile-top > span:last-child { flex-shrink: 0; }
+.biome-theme .biome-tile.compact { padding: 6px 7px 8px; }
+.biome-theme .biome-tile.compact .biome-scene { opacity: .45; }
+.biome-theme .biome-tile.compact .biome-badge { display: none; }
+.biome-theme .biome-tile.compact .biome-label { padding: 3px 5px; background: #f7f8e7d9; }
+.biome-theme .biome-tile.compact .tile-label { font-size: 9px; }
+.biome-theme .biome-tile.compact .tile-size { font-size: 8px; margin-top: 0; }
+.biome-theme .biome-tile.narrow .biome-label .tile-size { display: none; }
+.biome-theme .biome-tile.narrow { min-width: 0; min-height: 0; padding: 0; border-width: 0; }
+.biome-theme .biome-tile.narrow .biome-label { min-width: 0; width: 100%; padding: 3px; border-width: 0; }
+.biome-theme .world-plane.isometric {
+  /* Limit the rotated width by the available height so every viewport fits.
+     Orthographic projection applies one affine transform to every byte area. */
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: min(calc(100% - 32px), 200cqh);
+  height: calc(100% - 60px);
+  transform: translate(-50%, -50%) rotateX(40deg) rotateZ(-25deg) scale(.74);
+  transform-origin: 50% 50%;
+}
+.biome-theme .world-plane.isometric .biome-tile { overflow: visible; border-width: 2px; border-color: #d8e2c478; box-shadow: 4px 5px 0 var(--biome-deep), 5px 8px 0 #45553b44, inset 0 3px #ffffff33; }
+.biome-theme .world-plane.isometric .biome-tile.narrow { overflow: hidden; border-width: 0; padding: 0; }
+.biome-theme .world-plane.isometric .biome-tile:hover { box-shadow: 4px 5px 0 var(--biome-deep), 5px 9px 0 #45553b44, inset 0 0 0 2px #fff0a3; }
+.biome-theme .world-plane.isometric .biome-label { max-width: 100%; transform: translateZ(9px); padding: 5px 7px; }
+.biome-theme .world-plane.isometric .biome-label .tile-label { font-size: 13px; }
+.biome-theme .world-plane.isometric .biome-label .tile-size { font-size: 11px; }
+.biome-theme .world-plane.isometric .biome-tile.compact .tile-label { font-size: 10px; }
+.biome-theme .world-plane.isometric .biome-tile.compact .tile-size { font-size: 9px; }
+.biome-theme .world-plane.isometric .biome-scene { transform: translateZ(8px); }
+.biome-theme .map-footer { border-top-color: #dde5d1; background: #f0f4e6; padding: 11px 18px; color: #81946b; font-size: 9px; }
+.biome-theme .map-footer > span:last-child { color: #56763f; }
+.biome-theme .map-footer small { color: #94a47f; }
+.biome-theme .compact-folder-list { min-height: 390px; padding: 0 18px 14px; }
+.biome-theme .compact-folder-list > button { border-bottom-color: #dee7d0; padding: 12px 0; color: #5d724d; font-size: 11px; }
+.biome-theme .compact-folder-list > button:hover { background: #edf2e0; }
+.biome-theme .compact-folder-list b { font-size: 10px; color: #587240; }
+.biome-theme .types-card .card-heading { padding: 17px 17px 12px; }
+.biome-theme .count-badge { border-radius: 1px; background: #edf3df; color: #7c9062; border-color: #d0ddbd; }
+.biome-theme .types-card .donut-wrap { width: 142px; height: 142px; margin: 2px auto 11px; }
+.biome-theme .donut-center > span { font-size: 21px; color: #415d35; font-weight: 650; }
+.biome-theme .donut-center small { color: #8fa379; font-size: 9px; }
+.biome-theme .type-legend { margin: 0 17px 16px; }
+.biome-theme .type-legend button { padding: 8px 0; gap: 7px; font-size: 9px; }
+.biome-theme .type-legend button > span:not(.legend-dot) { color: #788e62; }
+.biome-theme .type-legend b { font-size: 9px; color: #617e48; white-space: nowrap; }
+.biome-theme .legend-dot { border-radius: 0; width: 7px; height: 7px; box-shadow: inset 0 1px #ffffff45; }
+.biome-theme .card-link { margin: auto 17px 14px; border-top-color: #dfe8d1; font-size: 9px; color: #69884f; }
+.biome-theme .no-types { color: #92a47d; font-size: 10px; }
+.biome-theme .table-card { margin-bottom: 16px; }
+.biome-theme .inventory-title { display: flex; align-items: center; gap: 7px; }
+.biome-theme .inventory-title > .icon { width: 16px; height: 16px; color: #8d9d64; }
+.biome-theme .inline-count { border-radius: 1px; border: 1px solid #d2ddc0; color: #859969; background: #edf2df; font-family: var(--pixel-font); font-size: 9px; }
+.biome-theme .table-filters { padding: 0 18px 13px; }
+.biome-theme .search-input { border-radius: 2px; background: #f0f3e6; border-color: #cbd7bb; box-shadow: inset 0 2px #e3ead6; width: 275px; min-height: 32px; }
+.biome-theme .search-input input { font-size: 10px; color: #516b3e; }
+.biome-theme .search-input input::placeholder { color: #95a382; }
+.biome-theme .search-input .icon { color: #91a179; }
+.biome-theme .search-input:focus-within { border-color: #91ad6b; box-shadow: inset 0 2px #e3ead6, 0 0 0 2px #a9bd7d26; }
+.biome-theme .table-scroll { background: #fafbf4; }
+.biome-theme table { font-size: 11px; }
+.biome-theme thead { background: #eaf0dd; border-top-color: #dae4c9; border-bottom-color: #cddabd; }
+.biome-theme th { padding: 10px 13px; font-size: 9px; font-weight: 600; color: #82946b; }
+.biome-theme td { padding: 10px 13px; border-bottom-color: #e2e9d7; color: #8b9a77; }
+.biome-theme tbody tr:hover { background: #f0f5e4; }
+.biome-theme .row-index { padding-left: 19px; padding-right: 3px; color: #a5b494; font-family: var(--pixel-font); font-size: 8px; }
+.biome-theme .file-name { gap: 10px; }
+.biome-theme .file-name b { color: #516b40; font-size: 11px; font-weight: 550; }
+.biome-theme .file-name small { color: #9dab8c; font-size: 9px; margin-top: 4px; }
+.biome-theme .file-icon { width: 30px; height: 30px; border: 1px solid #a6b68b33; border-radius: 1px; box-shadow: inset 0 2px #ffffff9c, inset 0 -2px #627c3714; }
+.biome-theme .file-icon .icon { width: 15px; height: 15px; }
+.biome-theme .inventory-item { border-color: #a8b89855; box-shadow: inset 0 2px #ffffff9c, inset 0 -3px #627c3714, 0 1px 0 #a7b6944a; }
+.biome-theme .size-cell { color: #53713e; font-size: 11px; }
+.biome-theme .usage-cell { color: #899a73; font-size: 9px; }
+.biome-theme .usage-track { width: 70px; height: 5px; border-radius: 0; background: #e4ecd6; }
+.biome-theme .usage-track > span { border-radius: 0; box-shadow: inset 0 1px #ffffff40; }
+.biome-theme .date-cell { color: #96a581; font-size: 9px; }
+.biome-theme .table-footer { padding: 11px 18px; border-top-color: #dbe5c9; background: #f4f7eb; font-size: 9px; color: #93a27e; }
+.biome-theme .table-empty { color: #91a078; font-size: 11px; }
+.biome-theme .empty-state { min-height: 302px; padding: 24px 25px; background: linear-gradient(180deg, #f8faef, #edf3df); }
+.biome-theme .empty-state h3 { color: #637e49; font-size: 15px; font-weight: 650; margin: 21px 0 8px; }
+.biome-theme .empty-state p { color: #8fa178; font-size: 11px; max-width: 325px; margin-bottom: 18px; }
+.biome-theme .empty-illustration { width: 66px; height: 66px; border-radius: 0; background: #cedbb3; transform: none; box-shadow: inset 0 7px #adc67e, inset -7px 0 #becda3, 0 7px #9d8761, 0 12px #8b7757; }
+.biome-theme .empty-illustration > .icon { width: 29px; height: 29px; color: #668540; stroke-width: 1.7; }
+.biome-theme .empty-orbit { inset: -12px; border-radius: 0; border-color: #bdcda7; }
+.biome-theme .empty-spark { border-radius: 0; width: 22px; height: 22px; background: #ede2ac; color: #a38c3f; border-color: #f5f9e8; box-shadow: 0 2px #c5b581; }
+.biome-theme .world-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 390px; padding: 25px; text-align: center; background: linear-gradient(180deg, #f8faef, #edf3df); }
+.biome-theme .loading-chunks { display: grid; grid-template-columns: repeat(4, 20px); grid-template-rows: repeat(4, 20px); gap: 3px; transform: skewY(-8deg); width: 89px; height: 89px; margin-bottom: 23px; }
+.biome-theme .world-loading h3 { font-family: var(--pixel-font); color: #668349; font-size: 14px; font-weight: 600; margin: 9px 0 8px; }
+.biome-theme .world-loading p { font-size: 11px; color: #92a178; line-height: 1.7; margin: 0; max-width: 325px; }
+.biome-theme .loading-chunk { background: #aac478; border: 1px solid #d4e3a7; box-shadow: 0 4px #8d7753; animation: chunk-reveal 1.6s ease-in-out infinite; }
+.biome-theme .loading-chunk:nth-child(2n) { background: #bcca8d; animation-delay: .18s; }
+.biome-theme .loading-chunk:nth-child(3n) { background: #8dae6c; animation-delay: .42s; }
+.biome-theme .loading-chunk:nth-child(5n) { background: #bcd0a2; animation-delay: .6s; }
+.biome-theme .scan-progress { border-radius: 2px; border-color: #c7d8af; padding: 10px 13px; background: #eaf3dc; margin-bottom: 14px; }
+.biome-theme .progress-track { border-radius: 0; background: #d5e3bf; height: 4px; }
+.biome-theme .progress-track > span { border-radius: 0; background: #89a964; }
+.biome-theme .scan-progress > div:last-child { color: #69864a; }
+.biome-theme .scan-progress small { color: #95a97c; }
+.biome-theme .scan-notes { border-radius: 2px; background: #f0e9d1; border-color: #ddcfa9; color: #9b8750; }
+.biome-theme .types-page-layout { gap: 16px; }
+.biome-theme .type-summary .donut-wrap { width: 218px; height: 218px; }
+.biome-theme .type-summary-note { color: #96a77f; }
+.biome-theme .category-row { border-top-color: #e0e9d0; padding: 16px 20px; }
+.biome-theme .category-row:hover { background: #f0f5e5; }
+.biome-theme .category-icon { border-radius: 2px; box-shadow: inset 0 2px #ffffff90, inset 0 -3px #647d3714; }
+.biome-theme .category-info b { color: #627d49; }
+.biome-theme .category-info small { color: #97a77e; }
+.biome-theme .category-track { border-radius: 0; background: #e5edd7; }
+.biome-theme .category-track i { border-radius: 0; }
+.biome-theme .category-value b { color: #648448; }
+.biome-theme .category-value small { color: #95a77b; }
+.biome-theme .history-path { color: #66824c; }
+.biome-theme .history-path .icon { color: #a69a66; }
+.biome-theme .history-duration { color: #a1af8c; }
+.biome-theme .history-info { color: #93a57a; }
+.biome-theme .drawer-backdrop,
+.biome-theme .modal-backdrop { background: #182c2355; backdrop-filter: blur(2px); }
+.biome-theme .details-drawer { background: #f4f6ea; border-left: 3px solid #bccba2; box-shadow: -12px 0 45px #26391825; padding: 24px 27px; width: 395px; }
+.biome-theme .drawer-header { margin-bottom: 25px; }
+.biome-theme .drawer-header > span { font-family: var(--pixel-font); font-size: 10px; color: #7e945e; letter-spacing: 1px; }
+.biome-theme .inspection-block { position: relative; width: 70px; height: 70px; border-radius: 0; margin-bottom: 22px; border: 1px solid #a6b98055; box-shadow: inset 0 5px #ffffff80, inset -5px 0 #597e3230, 0 6px #99a581, 0 9px #7d8d69; }
+.biome-theme .inspection-block .icon { width: 28px; height: 28px; }
+.biome-theme .details-drawer h2 { font-size: 22px; font-weight: 650; color: #476239; }
+.biome-theme .detail-type { color: #8da276; margin-bottom: 23px; }
+.biome-theme .detail-big-size { font-size: 38px; color: #4a6936; font-weight: 650; font-variant-numeric: tabular-nums; }
+.biome-theme .detail-big-size > span { color: #9aac84; font-size: 18px; }
+.biome-theme .detail-list > div { border-top-color: #d6e1c6; padding: 14px 0; }
+.biome-theme .detail-list dt { color: #98ab7e; font-size: 10px; }
+.biome-theme .detail-list dd { color: #68864c; font-size: 11px; }
+.biome-theme .drawer-note { color: #9bad86; font-size: 10px; }
+.biome-theme .help-modal { border-radius: 3px; background: #f6f8ed; border: 2px solid #c9d7b5; box-shadow: 0 8px 0 #78956333, 0 20px 80px #1b321f33; }
+.biome-theme .help-modal > h2 { color: #5c7944; }
+.biome-theme .help-modal > p { color: #92a17c; }
+.biome-theme .help-step { border-top-color: #dfe8cf; }
+.biome-theme .help-step h3 { color: #729456; }
+.biome-theme .help-step p { color: #96a981; }
+.biome-theme .help-step > b { color: #a6ae79; font-family: var(--pixel-font); }
+.biome-theme .help-footnote { border-radius: 1px; background: #e9edd9; color: #92a377; }
+.biome-theme .toast { border-radius: 2px; background: #ecf5de; border-color: #bed4a1; color: #648346; box-shadow: 0 3px 0 #acc88d55, 0 10px 25px #243b2414; }
+.biome-theme .toast.error { background: #f6e8d5; border-color: #d9b68d; color: #9c744c; }
+.biome-theme .browser-notice { border-radius: 2px; background: #e8e3ce; border-color: #d6cba6; color: #9b8758; margin-bottom: 15px; font-size: 10px; }
+@keyframes chunk-reveal { 0%, 100% { opacity: .45; transform: translateY(3px); } 45% { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1200px) {
+  body.biome-theme { --sidebar-width: 190px; }
+  .biome-theme .sidebar { padding-left: 11px; padding-right: 11px; }
+  .biome-theme .brand { font-size: 21px; }
+  .biome-theme .content { padding: 20px 20px 17px; }
+  .biome-theme .toolbar { padding: 0 20px; }
+  .biome-theme .hero h1 { font-size: 22px; }
+  .biome-theme .hero p { font-size: 10px; }
+  .biome-theme .hero-actions { gap: 6px; }
+  .biome-theme .hero-actions .button { font-size: 10px; padding-left: 10px; padding-right: 10px; }
+  .biome-theme .stats-grid { gap: 8px; }
+  .biome-theme .stat-card { padding: 10px 11px; }
+  .biome-theme .stat-top { font-size: 9px; }
+  .biome-theme .stat-value { font-size: 21px; }
+  .biome-theme .stat-note { font-size: 7.5px; }
+  .biome-theme .overview-charts { grid-template-columns: minmax(0, 1fr) 202px; gap: 11px; }
+  .biome-theme .card-heading { padding-left: 14px; padding-right: 14px; }
+  .biome-theme h2.world-heading { font-size: 12px; }
+  .biome-theme .world-heading p { font-size: 9px; max-width: 240px; }
+  .biome-theme .world-mode-controls button { padding: 5px 6px; font-size: 8px; gap: 3px; }
+  .biome-theme .world-mode-controls .icon { width: 11px; height: 11px; }
+  .biome-theme .map-toolbar { padding-left: 14px; padding-right: 14px; }
+  .biome-theme .map-crumbs button:not(.icon-button) { max-width: 105px; font-size: 9px; }
+  .biome-theme .treemap-world { height: 350px; min-height: 350px; margin-left: 11px; margin-right: 11px; }
+  .biome-theme .map-tile.biome-tile { padding: 8px 9px 10px; }
+  .biome-theme .biome-label { padding: 5px 6px; }
+  .biome-theme .biome-label .tile-label { font-size: 10px; }
+  .biome-theme .biome-label .tile-size { font-size: 9px; }
+  .biome-theme .biome-badge { font-size: 6px; }
+  .biome-theme .biome-scene { inset: 0; }
+  .biome-theme .map-footer { padding: 10px 14px; font-size: 8px; }
+  .biome-theme .map-footer small { font-size: 8px; }
+  .biome-theme .types-card .card-heading { padding-left: 14px; padding-right: 14px; }
+  .biome-theme .types-card .donut-wrap { width: 132px; height: 132px; }
+  .biome-theme .type-legend { margin-left: 14px; margin-right: 14px; }
+  .biome-theme .type-legend button { font-size: 8px; }
+  .biome-theme .type-legend b { font-size: 8px; }
+  .biome-theme .card-link { margin-left: 14px; margin-right: 14px; }
+  .biome-theme .search-input { width: 230px; }
+  .biome-theme .filter-controls select { font-size: 9px; }
+  .biome-theme th, .biome-theme td { padding-left: 10px; padding-right: 10px; }
+  .biome-theme .file-name b, .biome-theme .file-name small { max-width: 210px; }
+  .biome-theme .usage-track { width: 42px; }
+}
+@media (min-width: 1550px) {
+  body.biome-theme { --sidebar-width: 224px; }
+  .biome-theme .content { padding: 27px 34px 22px; }
+  .biome-theme .toolbar { padding: 0 34px; }
+  .biome-theme .overview-charts { grid-template-columns: minmax(0, 1fr) 244px; gap: 16px; }
+  .biome-theme .treemap-world { height: 440px; }
+  .biome-theme .types-card .donut-wrap { width: 161px; height: 161px; }
+  .biome-theme .type-legend button { font-size: 10px; }
+  .biome-theme .hero h1 { font-size: 28px; }
+}
+@media (max-height: 760px) {
+  .biome-theme .content { padding-top: 15px; }
+  .biome-theme .hero { margin-bottom: 10px; }
+  .biome-theme .hero h1 { font-size: 21px; }
+  .biome-theme .hero p { display: none; }
+  .biome-theme .directory-bar { min-height: 44px; padding-top: 6px; padding-bottom: 6px; margin-bottom: 10px; }
+  .biome-theme .directory-icon { width: 28px; height: 28px; }
+  .biome-theme .micro-label { margin-bottom: 3px; }
+  .biome-theme .stats-grid { margin-bottom: 10px; }
+  .biome-theme .stat-card { padding-top: 8px; padding-bottom: 8px; }
+  .biome-theme .stat-top { font-size: 10px; line-height: 1.25; }
+  .biome-theme .stat-icon,
+  .biome-theme .stat-note,
+  .biome-theme .stat-disk-caption { display: none; }
+  .biome-theme .stat-value { font-size: 21px; margin-top: 3px; margin-bottom: 3px; }
+  .biome-theme .stat-foot { min-height: 4px; }
+  .biome-theme .world-card > .card-heading { padding: 8px 13px 6px; }
+  .biome-theme .world-card > .card-heading p { display: none; }
+  .biome-theme .world-mode-controls button { padding-top: 4px; padding-bottom: 4px; }
+  .biome-theme .world-card .map-toolbar { padding-bottom: 8px; }
+  .biome-theme .treemap-world { height: 350px; min-height: 350px; }
+  .biome-theme .sidebar { padding-top: 20px; }
+  .biome-theme nav { gap: 3px; }
+  .biome-theme .nav-item { min-height: 40px; padding-top: 9px; padding-bottom: 9px; }
+  .biome-theme .nav-label { margin-bottom: 10px; }
+  .biome-theme .drive-heading { margin-top: 16px; }
+  .biome-theme .sidebar-note { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .biome-theme .loading-chunk { opacity: 1; transform: none; }
+}
