@@ -8,7 +8,6 @@ import { version } from '../package.json';
 
 const api = window.ruang;
 const app = document.querySelector('#app');
-document.body.classList.add('biome-theme');
 let language = localStorage.getItem('disklands.language') === 'id' ? 'id' : 'en';
 let nf = new Intl.NumberFormat(language === 'id' ? 'id-ID' : 'en-US');
 document.documentElement.lang = language;
@@ -44,6 +43,7 @@ const state = {
 };
 let toastTimer;
 let folderRequest = 0;
+let dialogTrigger;
 function esc(value = '') { return String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch])); }
 function attr(value) { return esc(value); }
 function sizeParts(bytes = 0) {
@@ -79,14 +79,13 @@ function sidebar() {
   ];
   return `<aside class="sidebar">
     <a class="brand" href="#" data-action="navigate" data-page="overview" aria-label="Disklands, ringkasan"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span>Disklands</span></a>
-    <nav aria-label="Navigasi utama">${pages.map(([page, glyph, label]) => `<button class="nav-item ${state.page === page ? 'active' : ''}" data-action="navigate" data-page="${page}" ${state.page === page ? 'aria-current="page"' : ''}><span class="nav-icon">${icon(glyph)}</span><span class="nav-text">${label}</span></button>`).join('')}</nav>
-    <div class="drive-heading"><span class="nav-label">PERANGKAT</span><span class="tiny-count">${state.drives.length}</span></div>
+    <nav aria-label="Navigasi utama">${pages.map(([page, glyph, label]) => `<button class="nav-item ${state.page === page ? 'active' : ''}" data-action="navigate" data-page="${page}" aria-label="${label}" title="${label}" ${state.page === page ? 'aria-current="page"' : ''}>${icon(glyph)}<span class="nav-text">${label}</span></button>`).join('')}</nav>
+    <div class="drive-heading"><span class="nav-label">PERANGKAT</span>${state.drives.length ? `<span class="tiny-count">${state.drives.length}</span>` : ''}</div>
     <div class="drive-list">${state.drives.map(drive => `<button class="drive-item ${currentDrive()?.root === drive.root ? 'selected' : ''}" data-action="scan-drive" data-path="${attr(drive.root)}" ${state.scanning ? 'disabled' : ''} title="Pindai ${attr(drive.root)}">
-      <span class="drive-top">${icon('drive')}<span><b>Disk lokal (${esc(drive.root.slice(0, 2))})</b><small>${size(drive.free)} tersedia</small></span></span>
-      <span class="drive-bar"><span style="width:${percent(drive.used, drive.total)}%;background:${percent(drive.used, drive.total) > 90 ? '#e5987d' : '#a5bc72'}"></span></span>
+      <span class="drive-top">${icon('drive')}<span><b>Disk lokal (${esc(drive.root.slice(0, 2))})</b><small>${size(drive.free)} tersedia</small><span class="drive-compact">${esc(drive.root.slice(0, 2))}</span></span></span>
+      <span class="drive-bar"><span class="${percent(drive.used, drive.total) > 90 ? 'near-capacity' : ''}" style="width:${percent(drive.used, drive.total)}%"></span></span>
       <span class="drive-capacity"><span>${pct(drive.used, drive.total)} terpakai</span><span>${size(drive.total)}</span></span>
     </button>`).join('') || '<div class="muted sidebar-note">Informasi disk belum tersedia.</div>'}</div>
-    <div class="sidebar-note">Klik disk untuk memindai<br>seluruh penyimpanannya.</div>
     <div class="sidebar-bottom"><span class="app-version">Disklands ${version}</span></div>
   </aside>`;
 }
@@ -95,10 +94,10 @@ function titlebar() {
 }
 function toolbar() {
   const titles = { overview: 'Ringkasan', largest: 'File terbesar', types: 'Jenis file', history: 'Riwayat pindai' };
-  return `<header class="toolbar"><div class="toolbar-breadcrumb">Penyimpanan ${icon('chevron')} <b>${titles[state.page]}</b></div><div class="toolbar-right"><select id="language" aria-label="Language" title="Language"><option value="en" ${language === 'en' ? 'selected' : ''}>English</option><option value="id" ${language === 'id' ? 'selected' : ''}>Bahasa Indonesia</option></select><button class="icon-button" data-action="help" aria-label="Panduan penggunaan">${icon('help')}</button></div></header>`;
+  return `<header class="toolbar"><div class="toolbar-breadcrumb"><span>Penyimpanan</span>${icon('chevron')}<b>${titles[state.page]}</b></div><div class="toolbar-right"><label class="language-select">${icon('globe')}<select id="language" aria-label="${language === 'id' ? 'Bahasa' : 'Language'}"><option value="en" ${language === 'en' ? 'selected' : ''}>English</option><option value="id" ${language === 'id' ? 'selected' : ''}>Bahasa Indonesia</option></select></label><button class="icon-button help-button" data-action="help" aria-label="Panduan penggunaan" title="Panduan penggunaan">${icon('help')}</button></div></header>`;
 }
-function hero(title, description) {
-  return `<div class="hero"><div><h1>${title}</h1><p>${description}</p></div><div class="hero-actions"><button class="button secondary" data-action="export" ${!state.summary || state.scanning ? 'disabled' : ''}>${icon('download')} Ekspor CSV</button><button class="button primary" data-action="choose" ${state.scanning ? 'disabled' : ''}>${icon('folder')} Pilih folder</button></div></div>`;
+function hero(title, description, showActions = true) {
+  return `<div class="hero"><div><h1>${title}</h1><p>${description}</p></div>${showActions ? `<div class="hero-actions">${state.summary ? `<button class="button secondary" data-action="export">${icon('download')} Ekspor CSV</button>` : ''}<button class="button primary" data-action="choose" ${state.scanning ? 'disabled' : ''}>${icon('folder')} Pilih folder</button></div>` : ''}</div>`;
 }
 function directoryBar() {
   return `<div class="directory-bar"><div class="directory-icon">${icon('folder')}</div><div class="directory-info"><span class="micro-label">DIREKTORI AKTIF</span><button class="directory-path" data-action="choose" title="${attr(state.root || translated('Pilih direktori'))}" ${state.scanning ? 'disabled' : ''}><span class="directory-path-label">${esc(state.root || translated('Belum ada direktori dipilih'))}</span>${icon('down')}</button></div><div class="directory-status">${state.scanning ? `<span class="directory-state scanning"><span class="spinning">${icon('refresh')}</span> Memindai</span>` : state.summary ? `<span class="directory-state">${icon('check')} Selesai</span> <span>Dipindai ${date(state.summary.scannedAt, true)}</span>` : `${icon('info')}<span>Pilih folder untuk mulai</span>`}</div><button class="button small ${state.scanning ? 'cancel-button' : 'secondary'}" data-action="${state.scanning ? 'cancel' : 'rescan'}" ${!state.root ? 'disabled' : ''}>${icon(state.scanning ? 'stop' : 'refresh')}${state.scanning ? 'Hentikan' : 'Pindai ulang'}</button></div>`;
@@ -109,12 +108,12 @@ function stats() {
   const [amount, unit] = sizeParts(summary?.totalSize || 0);
   const [free, freeUnit] = sizeParts(drive?.free || 0);
   const values = [
-    ['Ukuran direktori', summary ? `${amount}<span>${unit}</span>` : '-', state.scanning ? 'Menghitung ukuran file' : 'Total ukuran logis file'],
-    ['File ditemukan', summary ? nf.format(summary.fileCount) : '-', state.scanning ? 'Memeriksa isi direktori' : 'Termasuk seluruh subfolder'],
-    ['Folder dianalisis', summary ? nf.format(summary.folderCount) : '-', state.scanning ? 'Menelusuri subfolder' : 'Struktur direktori keseluruhan'],
-    ['Ruang tersedia', drive ? `${free}<span>${freeUnit}</span>` : '-', drive ? `Disk ${esc(drive.root.slice(0, 2))}, kapasitas ${size(drive.total)}` : 'Informasi disk belum tersedia']
+    ['Ukuran direktori', 'layers', summary ? `${amount}<span>${unit}</span>` : '—', state.scanning ? 'Menghitung ukuran file' : 'Total ukuran logis file'],
+    ['File ditemukan', 'file', summary ? nf.format(summary.fileCount) : '—', state.scanning ? 'Memeriksa isi direktori' : 'Termasuk seluruh subfolder'],
+    ['Folder dianalisis', 'folder', summary ? nf.format(summary.folderCount) : '—', state.scanning ? 'Menelusuri subfolder' : 'Struktur direktori keseluruhan'],
+    ['Ruang tersedia', 'drive', drive ? `${free}<span>${freeUnit}</span>` : '—', 'Informasi disk belum tersedia']
   ];
-  return `<section class="stats-grid" aria-label="Statistik penyimpanan">${values.map(([label, value, note], index) => `<div class="stat-card ${index === 0 ? 'stat-primary' : ''}"><div class="stat-top"><span>${label}</span></div><div class="stat-value">${value}</div><div class="stat-foot">${index === 3 && drive ? `<div class="stat-disk-meter" role="meter" aria-label="Ruang disk ${attr(drive.root.slice(0, 2))} terpakai" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent(drive.used, drive.total).toFixed(1)}"><span style="width:${percent(drive.used, drive.total)}%"></span></div><div class="stat-disk-caption"><span>${pct(drive.used, drive.total)} terpakai</span><span>${esc(drive.root.slice(0, 2))} / ${size(drive.total)}</span></div>` : `<div class="stat-note">${note}</div>`}</div></div>`).join('')}</section>`;
+  return `<section class="stats-grid" aria-label="Statistik penyimpanan">${values.map(([label, glyph, value, note], index) => `<div class="stat-card ${index === 0 ? 'stat-primary' : ''}"><div class="stat-top"><span>${label}</span><span class="stat-icon">${icon(glyph)}</span></div><div class="stat-value">${value}</div><div class="stat-foot">${glyph === 'drive' && drive ? `<div class="stat-disk-meter" role="meter" aria-label="Ruang disk ${attr(drive.root.slice(0, 2))} terpakai" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent(drive.used, drive.total).toFixed(1)}"><span class="${percent(drive.used, drive.total) > 90 ? 'near-capacity' : ''}" style="width:${percent(drive.used, drive.total)}%"></span></div><div class="stat-disk-caption"><span>${pct(drive.used, drive.total)} terpakai</span><span>${esc(drive.root.slice(0, 2))} / ${size(drive.total)}</span></div>` : `<div class="stat-note">${note}</div>`}</div></div>`).join('')}</section>`;
 }
 function scanProgress() {
   if (!state.scanning) return '';
@@ -122,6 +121,22 @@ function scanProgress() {
 }
 function emptyState(title = 'Belum ada hasil pemindaian', description = 'Pilih folder atau disk untuk memulai.', action = true) {
   return `<div class="empty-state"><div class="empty-folder" aria-hidden="true">${icon('folder')}</div><h3>${title}</h3><p>${description}</p>${action ? `<button class="button primary" data-action="choose" ${state.scanning ? 'disabled' : ''}>${icon('folder')} ${api ? 'Pilih folder' : 'Buka melalui aplikasi desktop'}</button>` : ''}</div>`;
+}
+
+function welcomeCard() {
+  const plots = ['code', 'images', 'videos', 'documents'].map(category => {
+    const biome = biomeFor({ category });
+    return `<span class="welcome-plot biome-${biome.id}" style="--biome-surface:${biome.surface};--biome-deep:${biome.deep};--biome-detail:${biome.detail}">${biomeScene(biome, `welcome-${category}`)}</span>`;
+  }).join('');
+  return `<section class="welcome-card" aria-labelledby="welcome-title">
+    <div class="welcome-copy">
+      <span class="welcome-mark">${icon('layers')}</span>
+      <h2 id="welcome-title">Petakan penyimpanan Anda</h2>
+      <p>Pindai satu folder atau seluruh drive. Peta bioma membantu Anda menemukan file dan folder yang memakai ruang paling banyak.</p>
+      <div class="welcome-actions"><button class="button primary" data-action="choose">${icon('folder')} ${api ? 'Pilih folder' : 'Buka melalui aplikasi desktop'}</button><button class="button welcome-help" data-action="help">Panduan penggunaan ${icon('arrowRight')}</button></div>
+    </div>
+    <div class="welcome-scene" aria-hidden="true"><div class="welcome-plane">${plots}</div></div>
+  </section>`;
 }
 
 // Balanced binary treemap. Every rectangle is proportional to its byte size.
@@ -155,39 +170,43 @@ function mapEntries() {
   return tiles;
 }
 function worldLoading() {
-  return `<div class="world-loading" role="status"><div class="loading-chunks" aria-hidden="true">${Array.from({ length: 16 }, (_, i) => `<span class="loading-chunk" style="--chunk-index:${i}"></span>`).join('')}</div><h3>Memindai folder</h3><p>${nf.format(state.progress?.fileCount || 0)} file ditemukan. Hasil muncul setelah pemindaian selesai</p></div>`;
+  return `<div class="world-loading" role="status"><div class="loading-chunks" aria-hidden="true">${'<span class="loading-chunk"></span>'.repeat(16)}</div><h3>Memindai folder</h3><p>${nf.format(state.progress?.fileCount || 0)} file ditemukan. Hasil muncul setelah pemindaian selesai</p></div>`;
 }
 function worldTile(tile, total) {
   const biome = tile.biome;
   const label = tile.type === 'aggregate' ? translated(tile.name) : tile.name;
-  const compact = tile.width < 18 || tile.height < 22;
+  const compact = tile.width < 19 || tile.height < 30;
   const narrow = tile.width < 10 || tile.height < 12;
   const action = tile.type === 'folder' ? 'folder' : tile.type === 'file' ? 'details' : 'map-list';
-  const description = `${label}, ${size(tile.size)}, ${pct(tile.size, total)}, ${tile.type === 'aggregate' ? translated('Lihat daftar') : translated(biome.name)}`;
-  return `<button class="map-tile biome-tile biome-${biome.id}${compact ? ' compact' : ''}${narrow ? ' narrow' : ''}" style="left:${tile.x}%;top:${tile.y}%;width:${tile.width}%;height:${tile.height}%;--biome-surface:${biome.surface};--biome-deep:${biome.deep};--biome-detail:${biome.detail};--biome-ink:${biome.ink}" data-action="${action}" ${tile.path ? `data-path="${attr(tile.path)}"` : ''} title="${attr(description)}" aria-label="${attr(description)}">${biomeScene(biome, tile.path || tile.name, compact)}<span class="tile-top"><span class="biome-badge">${icon(tile.type === 'folder' ? 'folder' : tile.type === 'aggregate' ? 'more' : categoryMeta[tile.category]?.icon || 'file')}<span>${esc(biome.name)}</span></span><span>${pct(tile.size, total)}</span></span><span class="biome-label"><span class="tile-label">${esc(label)}</span><span class="tile-size">${size(tile.size)}${tile.type === 'aggregate' ? `, ${nf.format(tile.groupedCount)} item digabung` : ''}</span></span></button>`;
+  const annotation = tile.type === 'aggregate' ? translated(`${nf.format(tile.groupedCount)} item digabung. Lihat daftar`) : translated(biome.name);
+  const description = `${label}, ${size(tile.size)}, ${pct(tile.size, total)}, ${annotation}`;
+  return `<button class="map-tile biome-tile biome-${biome.id}${compact ? ' compact' : ''}${narrow ? ' narrow' : ''}" style="left:${tile.x}%;top:${tile.y}%;width:${tile.width}%;height:${tile.height}%;--biome-surface:${biome.surface};--biome-deep:${biome.deep};--biome-detail:${biome.detail};--biome-ink:${biome.ink}" data-action="${action}" ${tile.path ? `data-path="${attr(tile.path)}"` : ''} title="${attr(description)}" aria-label="${attr(description)}">
+    ${biomeScene(biome, tile.path || tile.name, compact)}
+    <span class="tile-top"><span class="biome-badge">${icon(tile.type === 'folder' ? 'folder' : tile.type === 'aggregate' ? 'more' : categoryMeta[tile.category]?.icon || 'file')}<span>${esc(biome.name)}</span></span><span>${pct(tile.size, total)}</span></span>
+    <span class="biome-label"><span class="tile-label">${esc(label)}</span><span class="tile-size">${size(tile.size)}</span></span>
+  </button>`;
 }
 function treemapCard() {
   const entries = mapEntries();
   const total = entries.reduce((sum, e) => sum + e.size, 0);
   const layout = mapLayout(entries);
   return `<section class="card treemap-card world-card"><div class="card-heading"><div><h2 class="world-heading">Peta direktori</h2><p>Luas kawasan menunjukkan ruang yang dipakai.</p></div><div class="segmented world-mode-controls" aria-label="Tampilan direktori"><button class="${state.view === 'map' ? 'active' : ''}" data-action="view" data-view="map" aria-pressed="${state.view === 'map'}">${icon('grid')}<span>Bioma</span></button><button class="${state.view === 'isometric' ? 'active' : ''}" data-action="view" data-view="isometric" aria-pressed="${state.view === 'isometric'}">${icon('layers')}<span>Isometrik</span></button><button class="${state.view === 'list' ? 'active' : ''}" data-action="view" data-view="list" aria-pressed="${state.view === 'list'}">${icon('list')}<span>Daftar</span></button></div></div>
-    ${state.folder ? `<div class="map-toolbar"><div class="map-crumbs">${state.folder.parent ? `<button class="icon-button" data-action="folder" data-path="${attr(state.folder.parent)}" aria-label="Ke folder induk">${icon('back')}</button>` : ''}${state.folder.crumbs.slice(-3).map((crumb, i) => `${i ? icon('chevron') : ''}<button data-action="folder" data-path="${attr(crumb.path)}" title="${attr(crumb.path)}">${esc(crumb.name)}</button>`).join('')}</div><select id="map-filter" aria-label="Filter peta"><option value="all" ${!state.mapFoldersOnly ? 'selected' : ''}>Folder & file</option><option value="folders" ${state.mapFoldersOnly ? 'selected' : ''}>Hanya folder</option></select></div>` : ''}
+    ${state.folder ? `<div class="map-toolbar"><div class="map-crumbs">${state.folder.parent ? `<button class="icon-button" data-action="folder" data-path="${attr(state.folder.parent)}" aria-label="Ke folder induk">${icon('back')}</button>` : icon('folder')}${state.folder.crumbs.slice(-3).map((crumb, i) => `${i ? icon('chevron') : ''}<button data-action="folder" data-path="${attr(crumb.path)}" title="${attr(crumb.path)}">${esc(crumb.name)}</button>`).join('')}</div>${state.view !== 'list' ? `<select id="map-filter" aria-label="Filter peta"><option value="all" ${!state.mapFoldersOnly ? 'selected' : ''}>Folder & file</option><option value="folders" ${state.mapFoldersOnly ? 'selected' : ''}>Hanya folder</option></select>` : ''}</div>` : ''}
     ${!state.folder ? state.scanning ? worldLoading() : emptyState() : state.view !== 'list' ? layout.length ? `<div class="treemap treemap-world${state.view === 'isometric' ? ' world-isometric' : ''}" aria-label="Peta ukuran direktori"><div class="world-plane${state.view === 'isometric' ? ' isometric' : ''}">${layout.map(tile => worldTile(tile, total)).join('')}</div></div>` : emptyState('Peta kosong', 'Tidak ada item berukuran lebih dari 0 byte yang sesuai dengan filter peta.', false) : `<div class="compact-folder-list">${state.folder.entries.slice(0, 30).map(entry => `<button data-action="${entry.type === 'folder' ? 'folder' : 'details'}" data-path="${attr(entry.path)}"><span class="legend-dot" style="background:${biomeFor(entry).surface}"></span>${icon(entry.type === 'folder' ? 'folder' : 'file')}<span>${esc(entry.name)}</span><b>${size(entry.size)}</b>${icon('chevron')}</button>`).join('') || '<p class="muted">Folder ini kosong.</p>'}</div>`}
-    <div class="map-footer"><span>${icon('info')} ${state.folder ? 'Klik folder untuk membuka isinya atau file untuk melihat detail' : 'Pilih folder untuk melihat peta'}</span> <span>${state.folder ? size(state.mapFoldersOnly ? total : state.folder.size) : '-'} <small>${state.mapFoldersOnly ? 'folder' : 'total'}</small></span></div>
+    ${state.folder ? `<div class="map-footer"><span>${icon('info')} Klik folder untuk membuka isinya atau file untuk melihat detail</span><span>${size(state.mapFoldersOnly && state.view !== 'list' ? total : state.folder.size)} <small>${state.mapFoldersOnly && state.view !== 'list' ? 'folder' : 'total'}</small></span></div>` : ''}
   </section>`;
 }
 function donut(groups, total) {
   let offset = 0;
   const circumference = 2 * Math.PI * 67;
-  const hasResult = !!state.summary;
   const [amount, unit] = sizeParts(total);
-  return `<div class="donut-wrap"><svg class="donut" viewBox="0 0 180 180" role="img" aria-label="Distribusi jenis file"><circle cx="90" cy="90" r="67" fill="none" stroke="#eeeee9" stroke-width="18"/>${groups.filter(g => g.size > 0).map(group => {
+  return `<div class="donut-wrap"><svg class="donut" viewBox="0 0 180 180" role="img" aria-label="Distribusi jenis file"><circle cx="90" cy="90" r="67" fill="none" stroke="var(--track)" stroke-width="18"/>${groups.filter(g => g.size > 0).map(group => {
     const length = total ? group.size / total * circumference : 0;
     const dash = Math.max(0, length - (groups.length > 1 ? 3.5 : 0));
     const segment = `<circle cx="90" cy="90" r="67" fill="none" stroke="${categoryMeta[group.category]?.color || '#a5aaa7'}" stroke-width="18" stroke-dasharray="${dash} ${circumference - dash}" stroke-dashoffset="${-offset}" transform="rotate(-90 90 90)"/>`;
     offset += length;
     return segment;
-  }).join('')}</svg><div class="donut-center"><span>${hasResult ? amount : '-'}</span><small>${hasResult ? unit + ' terpakai' : state.scanning ? 'Sedang dipindai' : 'Belum dipindai'}</small></div></div>`;
+  }).join('')}</svg><div class="donut-center"><span>${amount}</span><small>${unit} terpakai</small></div></div>`;
 }
 function typesCard() {
   const groups = state.summary?.categories || [];
@@ -225,7 +244,14 @@ function scanNotes() {
   return `<div class="scan-notes">${icon('info')}<span>${state.summary.skipped ? `${nf.format(state.summary.skipped)} lokasi tidak dapat dibaca. ` : ''}${state.summary.links ? `${nf.format(state.summary.links)} tautan/junction dilewati. ` : ''}Total mencakup file yang berhasil dibaca.</span><button data-action="help">Lihat penjelasan ${icon('arrowUpRight')}</button></div>`;
 }
 function overview() {
-  return `${hero('Ringkasan penyimpanan', 'Ukuran file dan folder pada direktori yang dipindai.')} ${directoryBar()} ${scanProgress()} <div id="stats">${stats()}</div><div class="overview-charts">${treemapCard()}${typesCard()}</div>${tableCard()}${scanNotes()}`;
+  const heading = 'Ringkasan penyimpanan';
+  const description = 'Ukuran file dan folder pada direktori yang dipindai.';
+  if (!state.summary && !state.scanning) {
+    return `${hero(heading, description, false)}${state.root ? directoryBar() : ''}${welcomeCard()}`;
+  }
+  const scanHeader = `${hero(heading, description, !state.scanning)}${directoryBar()}${scanProgress()}<div id="stats">${stats()}</div>`;
+  if (state.scanning) return `${scanHeader}${treemapCard()}`;
+  return `${scanHeader}<div class="overview-charts">${treemapCard()}${typesCard()}</div>${tableCard()}${scanNotes()}`;
 }
 function largestPage() {
   return `${hero('File terbesar', 'Hingga 500 file terbesar dari direktori yang dipindai.')} ${directoryBar()}${scanProgress()} ${state.summary ? tableCard(true) : `<section class="card">${emptyState()}</section>`}${scanNotes()}`;
@@ -250,9 +276,17 @@ function helpDialog() {
 }
 function render() {
   const scrollTop = document.querySelector('.content')?.scrollTop || 0;
-  app.innerHTML = `${titlebar()}${sidebar()}<main class="main">${toolbar()}<div class="content">${!api ? '<div class="browser-notice">Pratinjau tampilan. Akses file lokal tersedia ketika dibuka sebagai aplikasi desktop Disklands.</div>' : ''}${({ overview, largest: largestPage, types: typesPage, history: historyPage }[state.page])()}</div></main>${selectionDrawer()}${helpDialog()}`;
+  app.innerHTML = `${titlebar()}${sidebar()}<main class="main">${toolbar()}<div class="content"><div class="workspace">${!api ? `<div class="browser-notice">${icon('info')}<span>Pratinjau tampilan. Akses file lokal tersedia ketika dibuka sebagai aplikasi desktop Disklands.</span></div>` : ''}${({ overview, largest: largestPage, types: typesPage, history: historyPage }[state.page])()}</div></div></main>${selectionDrawer()}${helpDialog()}`;
   localize(app, language);
   document.querySelector('.content').scrollTop = scrollTop;
+  const dialog = app.querySelector('[aria-modal="true"]');
+  if (dialog) {
+    app.querySelectorAll('.main, .sidebar').forEach(element => { element.inert = true; });
+    dialog.querySelector('button').focus({ preventScroll: true });
+  } else if (dialogTrigger) {
+    app.querySelectorAll(dialogTrigger.selector)[dialogTrigger.index]?.focus({ preventScroll: true });
+    dialogTrigger = null;
+  }
   renderToast();
 }
 function refreshTable() {
@@ -285,10 +319,13 @@ async function navigateFolder(target) {
     const folder = await api.getFolder(target);
     if (request !== folderRequest) return;
     state.folder = folder;
+    const openedFromDetails = Boolean(state.selection);
+    dialogTrigger = null;
     state.selection = null;
     state.query = '';
     state.page = 'overview';
     render();
+    if (openedFromDetails) app.querySelector('.map-crumbs button:last-child')?.focus();
   } catch (error) { toast(error.message, true); }
 }
 function navigate(page) {
@@ -306,7 +343,14 @@ app.addEventListener('click', async event => {
   event.preventDefault();
   const action = button.dataset.action;
   try {
-    if (action === 'navigate') navigate(button.dataset.page);
+    if (action === 'navigate') {
+      navigate(button.dataset.page);
+      app.querySelector('nav [aria-current="page"]')?.focus({ preventScroll: true });
+    }
+    if (action === 'help' || action === 'details') {
+      const selector = `[data-action="${action}"]`;
+      dialogTrigger = { selector, index: Array.from(app.querySelectorAll(selector)).indexOf(button) };
+    }
     if (action === 'choose') await chooseFolder();
     if (action === 'rescan') await runScan(state.root);
     if (action === 'scan-drive') { navigate('overview'); await runScan(button.dataset.path); }
@@ -339,13 +383,22 @@ app.addEventListener('click', async event => {
 });
 app.addEventListener('input', event => { if (event.target.id === 'search') { state.query = event.target.value; refreshTable(); } });
 app.addEventListener('change', event => {
-  if (event.target.id === 'language') { setLanguage(event.target.value); return; }
+  if (event.target.id === 'language') { setLanguage(event.target.value); document.querySelector('#language').focus(); return; }
   if (event.target.id === 'sort') { state.sort = event.target.value; refreshTable(); }
   if (event.target.id === 'category-filter') { state.category = event.target.value; refreshTable(); }
   if (event.target.id === 'size-filter') { state.minSize = Number(event.target.value); refreshTable(); }
-  if (event.target.id === 'map-filter') { state.mapFoldersOnly = event.target.value === 'folders'; render(); }
+  if (event.target.id === 'map-filter') { state.mapFoldersOnly = event.target.value === 'folders'; render(); document.querySelector('#map-filter').focus({ preventScroll: true }); }
 });
 document.addEventListener('keydown', event => {
+  if (event.key === 'Tab' && (state.selection || state.help)) {
+    const buttons = app.querySelectorAll('[aria-modal="true"] button');
+    const first = buttons[0];
+    const last = buttons[buttons.length - 1];
+    if (document.activeElement === (event.shiftKey ? first : last)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    }
+  }
   if (event.key === 'Escape' && (state.selection || state.help)) { state.selection = null; state.help = false; render(); }
   if ((event.ctrlKey || event.metaKey) && event.key === 'f') { event.preventDefault(); document.querySelector('#search')?.focus(); }
   if ((event.ctrlKey || event.metaKey) && event.key === 'o') { event.preventDefault(); if (!state.scanning) chooseFolder().catch(error => toast(error.message, true)); }

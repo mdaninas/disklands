@@ -158,7 +158,7 @@ function registerHandlers() {
   });
 }
 async function createWindow() {
-  window = new BrowserWindow({ width: 1440, height: 960, minWidth: 1050, minHeight: 720, frame: false, backgroundColor: '#eeeee5', title: 'Disklands', icon: path.join(__dirname, '../dist/icon.png'), show: false, webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true } });
+  window = new BrowserWindow({ width: 1440, height: 960, minWidth: 1050, minHeight: 720, frame: false, backgroundColor: '#f4f6f0', title: 'Disklands', icon: path.join(__dirname, '../dist/icon.png'), show: false, webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true } });
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   window.webContents.on('will-navigate', (event, url) => {
     if (url !== window.webContents.getURL()) event.preventDefault();

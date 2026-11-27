@@ -1,6 +1,8 @@
 // The renderer's source copy is Indonesian. Translate only UI text and attributes;
 // file names and paths remain exactly as they were scanned.
 const english = [
+  ['Petakan penyimpanan Anda', 'Map your storage'],
+  ['Pindai satu folder atau seluruh drive. Peta bioma membantu Anda menemukan file dan folder yang memakai ruang paling banyak.', 'Scan a folder or an entire drive. The biome map shows which files and folders take up the most space.'],
   ['Pratinjau tampilan. Akses file lokal tersedia ketika dibuka sebagai aplikasi desktop Disklands.', 'Preview only. Open the Disklands desktop app to access local files.'],
   ['Pilih folder atau disk untuk memindai ukuran file dan folder.', 'Choose a folder or drive to scan file and folder sizes.'],
   ['Gunakan Pilih folder, atau klik disk di sidebar untuk memindai seluruh drive. Pemindaian besar dapat dihentikan kapan saja.', 'Use Choose folder, or click a drive in the sidebar to scan the whole drive. You can stop a large scan at any time.'],
